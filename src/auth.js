@@ -1,15 +1,11 @@
 import { useState, useEffect } from 'react';
-import b2cPolicies from 'policies';
+import b2cPolicies from './policies';
 import * as msal from 'msal';
-import msalConfig from 'authConfig';
-
-const loginRequest = {
-    authority: b2cPolicies.authorities.signUpSignIn.authority
-};
+import { msalConfig, loginRequest } from './authConfig';
 
 const msalApp = new msal.UserAgentApplication(msalConfig)
 
-const authProvider = () => {
+const useAuthProvider = () => {
     const [account, setAccount] = useState(null);
     const [idToken, setIdToken] = useState(null);
 
@@ -48,13 +44,10 @@ const authProvider = () => {
     }
 
     const handleLoginSuccess = (loginResponse) => {
-        if (loginResponse &&
-            loginResponse.tokenType === 'id_token' &&
-            loginResponse.idToken?.issuer === process.env.REACT_APP_B2C_IDTOKEN_VALIDISSUER &&
-            loginResponse.idToken?.claims?.aud === process.env.REACT_APP_B2C_APP_CLIENT_ID &&
-            loginResponse.idToken?.claims?.tfp === b2cPolicies.names.signUpSignIn) {
+        if (loginResponse) {
             console.log(`valid loginResponse: ${JSON.stringify(loginResponse)}`);
-            setAccount(msalApp.getAccount());
+            let incomingAccount = msalApp.getAccount();
+            setAccount(incomingAccount);
             setIdToken(loginResponse.idToken.rawIdToken);
         } else {
             // Not a valid token, logout
@@ -113,4 +106,4 @@ const authProvider = () => {
 
 }
 
-export default authProvider;
+export default useAuthProvider;

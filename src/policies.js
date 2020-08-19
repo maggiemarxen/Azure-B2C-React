@@ -20,3 +20,5 @@ const b2cPolicies = {
         },
     },
 }
+
+export default b2cPolicies;

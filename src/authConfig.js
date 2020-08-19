@@ -1,3 +1,6 @@
+import b2cPolicies from './policies';
+import apiConfig from './apiConfig';
+
 /**
  * Config object to be passed to MSAL on creation.
  * For a full list of msal.js configuration parameters, 
@@ -7,6 +10,7 @@ const msalConfig = {
     auth: {
       clientId: "8be9bf20-fb79-49f3-afed-b680c97fe795",
       authority: b2cPolicies.authorities.signUpSignIn.authority,
+      redirectUri: "http://localhost:3000",
       validateAuthority: false
     },
     cache: {
@@ -27,3 +31,5 @@ const msalConfig = {
   const tokenRequest = {
     scopes: apiConfig.b2cScopes,  // e.g. ["https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read"]
   };
+
+  export { msalConfig, loginRequest, tokenRequest }
