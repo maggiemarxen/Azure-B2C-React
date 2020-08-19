@@ -44,7 +44,11 @@ const useAuthProvider = () => {
     }
 
     const handleLoginSuccess = (loginResponse) => {
-        if (loginResponse) {
+        if (loginResponse != null &&
+            loginResponse.tokenType === 'id_token' &&
+            loginResponse.idToken?.issuer === process.env.REACT_APP_B2C_IDTOKEN_VALIDISSUER &&
+            loginResponse.idToken?.claims?.aud === process.env.REACT_APP_B2C_APP_CLIENT_ID &&
+            loginResponse.idToken?.claims?.tfp === process.env.REACT_APP_B2C_SUSI_POLICY_NAME) {
             console.log(`valid loginResponse: ${JSON.stringify(loginResponse)}`);
             let incomingAccount = msalApp.getAccount();
             setAccount(incomingAccount);

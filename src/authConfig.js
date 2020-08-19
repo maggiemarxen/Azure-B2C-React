@@ -1,5 +1,4 @@
 import b2cPolicies from './policies';
-import apiConfig from './apiConfig';
 
 /**
  * Config object to be passed to MSAL on creation.
@@ -8,9 +7,9 @@ import apiConfig from './apiConfig';
  * */
 const msalConfig = {
     auth: {
-      clientId: "8be9bf20-fb79-49f3-afed-b680c97fe795",
+      clientId: process.env.REACT_APP_B2C_APP_CLIENT_ID,
       authority: b2cPolicies.authorities.signUpSignIn.authority,
-      redirectUri: "http://localhost:3000",
+      redirectUri: process.env.REACT_APP_B2C_APP_REDIRECT_URL,
       validateAuthority: false
     },
     cache: {
@@ -26,10 +25,5 @@ const msalConfig = {
   const loginRequest = {
     scopes: ["openid", "profile"],
   };
-  
-  // Add here scopes for access token to be used at the API endpoints.
-  const tokenRequest = {
-    scopes: apiConfig.b2cScopes,  // e.g. ["https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read"]
-  };
 
-  export { msalConfig, loginRequest, tokenRequest }
+  export { msalConfig, loginRequest }
