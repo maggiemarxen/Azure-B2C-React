@@ -2,7 +2,7 @@ import React from 'react';
 import { AccountCircle } from '@material-ui/icons';
 import { Button, Box } from '@material-ui/core';
 import './App.css';
-import useAuthProvider from './auth'
+import useAuthProvider from './useAuthProvider'
 
 const App = () => {
   const { loginTypes, account, loginAsync, logoutAsync } = useAuthProvider();
